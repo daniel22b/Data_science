@@ -161,3 +161,17 @@ y = [100, 80, 130, 90, 95]
 beta = least_squares_fit(inputs, y, learning_rate,5000, 25 )
 
 # print(beta)
+
+
+from typing import TypeVar, Callable
+
+X = TypeVar('X')
+Stat = TypeVar('Start')
+
+def bootstrap_sample(data: List[X]) -> List[X]:
+    return [random.choice(data) for _ in data]
+
+def bootstrap_statistic(data: List[X],
+                        stats_fn: Callable[[List[X]], Stat],
+                        num_samples: int) -> List[Stat]:
+    return [stats_fn(bootstrap_sample(data)) for _ in range(num_samples)]
